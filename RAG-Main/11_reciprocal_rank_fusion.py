@@ -21,17 +21,15 @@ db = Chroma(
 # Pydantic model for structured output
 class QueryVariations(BaseModel):
     queries: List[str]
-# ──────────────────────────────────────────────────────────────────
+
 # MAIN EXECUTION
-# ──────────────────────────────────────────────────────────────────
 
 # Original query
 original_query = "How does Tesla make money?"
 print(f"Original Query: {original_query}\n")
 
-# ──────────────────────────────────────────────────────────────────
+
 # Step 1: Generate Multiple Query Variations
-# ──────────────────────────────────────────────────────────────────
 
 llm_with_tools = llm.with_structured_output(QueryVariations)
 
@@ -50,9 +48,7 @@ for i, variation in enumerate(query_variations, 1):
 
 print("\n" + "="*60)
 
-# ──────────────────────────────────────────────────────────────────
 # Step 2: Search with Each Query Variation & Store Results
-# ──────────────────────────────────────────────────────────────────
 
 retriever = db.as_retriever(search_kwargs={"k": 5})  # Get more docs for better RRF
 all_retrieval_results = []  # Store all results for RRF
@@ -75,9 +71,7 @@ print("\n" + "="*60)
 print("Multi-Query Retrieval Complete!")
 print("Notice how different query variations retrieved different documents.")
 
-# ──────────────────────────────────────────────────────────────────
 # Step 3: Apply Reciprocal Rank Fusion (RRF)
-# ──────────────────────────────────────────────────────────────────
 
 def reciprocal_rank_fusion(chunk_lists, k=60, verbose=True):
 
@@ -137,16 +131,16 @@ def reciprocal_rank_fusion(chunk_lists, k=60, verbose=True):
     )
     
     if verbose:
-        print(f"✅ RRF Complete! Processed {len(sorted_chunks)} unique chunks from {len(chunk_lists)} queries.")
+        print(f" RRF Complete! Processed {len(sorted_chunks)} unique chunks from {len(chunk_lists)} queries.")
     
     return sorted_chunks
 
 # Apply RRF to our retrieval results
 fused_results = reciprocal_rank_fusion(all_retrieval_results, k=60, verbose=True)
 
-# ──────────────────────────────────────────────────────────────────
+
 # Step 4: Display Final Fused Results
-# ──────────────────────────────────────────────────────────────────
+
 
 print("\n" + "="*60)
 print("FINAL RRF RANKING")
@@ -155,19 +149,18 @@ print("="*60)
 print(f"\nTop {min(10, len(fused_results))} documents after RRF fusion:\n")
 
 for rank, (doc, rrf_score) in enumerate(fused_results[:10], 1):
-    print(f"🏆 RANK {rank} (RRF Score: {rrf_score:.4f})")
+    print(f"RANK {rank} (RRF Score: {rrf_score:.4f})")
     print(f"{doc.page_content[:200]}...")
     print("-" * 50)
 
-print(f"\n✅ RRF Complete! Fused {len(fused_results)} unique documents from {len(query_variations)} query variations.")
-print("\n💡 Key benefits:")
+print(f"\n RRF Complete! Fused {len(fused_results)} unique documents from {len(query_variations)} query variations.")
+print("\n  Key benefits:")
 print("   • Documents appearing in multiple queries get boosted scores")
 print("   • Higher positions contribute more to the final score") 
 print("   • Balanced fusion using k=60 for gentle position penalties")
 
-# ──────────────────────────────────────────────────────────────────
+
 # Optional: Quick Usage Examples
-# ──────────────────────────────────────────────────────────────────
 
 print("\n" + "="*60)
 print("USAGE EXAMPLES")

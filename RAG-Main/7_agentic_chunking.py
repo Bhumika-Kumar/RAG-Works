@@ -40,7 +40,7 @@ Return the text with <<<SPLIT>>> markers where you want to split:
 """
 
 # Get AI response
-print("🤖 Asking AI to chunk the text...")
+print(" Asking AI to chunk the text...")
 response = llm.invoke(prompt)
 marked_text = response.content
 

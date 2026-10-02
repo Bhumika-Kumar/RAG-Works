@@ -20,17 +20,14 @@ db = Chroma(
 # Pydantic model for structured output
 class QueryVariations(BaseModel):
     queries: List[str]
-# ──────────────────────────────────────────────────────────────────
+
 # MAIN EXECUTION
-# ──────────────────────────────────────────────────────────────────
 
 # Original query
 original_query = "How does Tesla make money?"
 print(f"Original Query: {original_query}\n")
 
-# ──────────────────────────────────────────────────────────────────
 # Step 1: Generate Multiple Query Variations
-# ──────────────────────────────────────────────────────────────────
 
 llm_with_tools = llm.with_structured_output(QueryVariations)
 
@@ -49,9 +46,7 @@ for i, variation in enumerate(query_variations, 1):
 
 print("\n" + "="*60)
 
-# ──────────────────────────────────────────────────────────────────
 # Step 2: Search with Each Query Variation & Store Results
-# ──────────────────────────────────────────────────────────────────
 
 retriever = db.as_retriever(search_kwargs={"k": 5})  # Get more docs for better RRF
 all_retrieval_results = []  # Store all results for RRF

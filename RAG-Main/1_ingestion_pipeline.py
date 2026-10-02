@@ -11,11 +11,8 @@ def load_documents(docs_path="docs"):
     """Load all text files from the docs directory"""
     print(f"Loading documents from {docs_path}...")
     
-    # Check if docs directory exists
     if not os.path.exists(docs_path):
         raise FileNotFoundError(f"The directory {docs_path} does not exist. Please create it and add your company files.")
-    
-    # Load all .txt files from the docs directory
   
     loader = DirectoryLoader(
     path=docs_path,
@@ -71,8 +68,7 @@ def create_vector_store(chunks, persist_directory="db/chroma_db"):
     print("Creating embeddings and storing in ChromaDB...")
         
     embedding_model = OpenAIEmbeddings(model="text-embedding-3-small")
-    
-    # Create ChromaDB vector store
+  
     print("--- Creating vector store ---")
     vectorstore = Chroma.from_documents(
         documents=chunks,
@@ -95,9 +91,8 @@ def main():
     docs_path = "docs"
     persistent_directory = "db/chroma_db"
     
-    # Check if vector store already exists
     if os.path.exists(persistent_directory):
-        print("✅ Vector store already exists. No need to re-process documents.")
+        print("Vector store already exists. No need to re-process documents.")
             
         embedding_model = OpenAIEmbeddings(model="text-embedding-3-small")
         vectorstore = Chroma(
@@ -111,16 +106,13 @@ def main():
         print("Persistent directory does not exist. Initializing vector store...\n")
         
     
-    # Step 1: Load documents
     documents = load_documents(docs_path)  
 
-    # Step 2: Split into chunks
     chunks = split_documents(documents)
 
-    # # Step 3: Create vector store
     vectorstore = create_vector_store(chunks, persistent_directory)
         
-    print("\n✅ Ingestion complete! Your documents are now ready for RAG queries.")
+    print("\nIngestion complete! Your documents are now ready for RAG queries.")
     return vectorstore
 
     

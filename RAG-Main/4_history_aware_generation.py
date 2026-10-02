@@ -11,7 +11,6 @@ persistent_directory = "db/chroma_db"
 embeddings = OpenAIEmbeddings(model="text-embedding-3-small")
 db = Chroma(persist_directory=persistent_directory, embedding_function=embeddings)
 
-# Set up AI model
 model = ChatOpenAI(model="gpt-4o")
 
 # Store our conversation as messages
@@ -22,7 +21,6 @@ def ask_question(user_question):
     
     # Step 1: Make the question clear using conversation history
     if chat_history:
-        # Ask AI to make the question standalone
         messages = [
             SystemMessage(content="Given the chat history, rewrite the new question to be standalone and searchable. Just return the rewritten question."),
         ] + chat_history + [
@@ -46,7 +44,6 @@ def ask_question(user_question):
         preview = '\n'.join(lines)
         print(f"  Doc {i}: {preview}...")
     
-    # Step 3: Create final prompt
     combined_input = f"""Based on the following documents, please answer this question: {user_question}
 
     Documents:
