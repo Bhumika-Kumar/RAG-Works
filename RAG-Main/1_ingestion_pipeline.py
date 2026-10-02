@@ -85,7 +85,7 @@ def create_vector_store(chunks, persist_directory="db/chroma_db"):
 
 def main():
     """Main ingestion pipeline"""
-    print("=== RAG Document Ingestion Pipeline ===\n")
+    print("RAG Document Ingestion Pipeline \n")
     
     # Define paths
     docs_path = "docs"

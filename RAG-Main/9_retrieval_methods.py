@@ -19,10 +19,9 @@ query = "How much did Microsoft pay to acquire GitHub?"
 # query = "How do you plant tomatoes in a garden?"
 print(f"Query: {query}\n")
 
-# ──────────────────────────────────────────────────────────────────
 # METHOD 1: Basic Similarity Search
 # Returns the top k most similar documents
-# ──────────────────────────────────────────────────────────────────
+
 
 print("=== METHOD 1: Similarity Search (k=3) ===")
 retriever = db.as_retriever(search_kwargs={"k": 3})
@@ -34,7 +33,6 @@ for i, doc in enumerate(docs, 1):
     print(f"Document {i}:")
     print(f"{doc.page_content}\n")
 
-print("-" * 60)
 
 #METHOD 2: Similarity with Score Threshold
 #Only returns documents above a certain similarity score
@@ -54,8 +52,6 @@ print(f"Retrieved {len(docs)} documents (threshold: 0.3):\n")
 for i, doc in enumerate(docs, 1):
     print(f"Document {i}:")
     print(f"{doc.page_content}\n")
-
-print("-" * 60)
 
 # METHOD 3: Maximum Marginal Relevance (MMR)
 # Balances relevance and diversity - avoids redundant results
@@ -77,5 +73,4 @@ for i, doc in enumerate(docs, 1):
     print(f"Document {i}:")
     print(f"{doc.page_content}\n")
 
-print("=" * 60)
 print("Done! Try different queries or parameters to see the differences.")

@@ -7,3 +7,5 @@ python-dotenv
 sentence-transformers
 faiss-cpu
 chromadb
+langchain-cohere
+rank_bm25

@@ -55,7 +55,7 @@ messages = [
 result = model.invoke(messages)
 
 
-print("\n--- Generated Response ---")
+print("\n Generated Response ")
 
 print("Content only:") 
 

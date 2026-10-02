@@ -19,3 +19,5 @@ wheels/
 
 #data files
 db/
+#source files
+src/
